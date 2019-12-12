@@ -7,7 +7,7 @@
 
 #include "argline.h"
 #include "lexer.h"
-
+#include <string.h>
 
 CommandLineReader::CommandLineReader(const int argc, const char* argv[])
 : argc(argc), argv(argv) {

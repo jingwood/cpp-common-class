@@ -14,7 +14,7 @@
 #include "stream.h"
 
 extern "C" {
-#include "zlib.h"
+#include "../inc/zlib.h"
 }
 
 #define CHUNK_DEFAULT_SIZE 65536
