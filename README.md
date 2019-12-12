@@ -4,7 +4,7 @@ Common classes for cross-platform C++ application development. (libccm.a)
 
 # This library contains the following classes
 
-- [*ansi.h*](src/ansi.h) Predefined symbol used to output colored information onto console
+- [*ansi.h*](src/ansi.h) Predefined symbols used to output colored information onto console
 - [*archive.h*](src/archive.h) File archive
 - [*argline.h*](src/argline.h) Functionality for console arguments parsing
 - wip...
