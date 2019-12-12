@@ -81,9 +81,9 @@ public:
 		}
 		
 		logicalArchiveSize = sizeof(Archive::ArchiveFileHeader)
-		+ this->totalDataBytes
-		+ this->archive.trunk.getCount() * sizeof(uint) * 6 // trunk index
-		+ sizeof(uint) * 4; // trunk header
+			+ this->totalDataBytes
+			+ this->archive.trunk.getCount() * sizeof(uint) * 6 // trunk index
+			+ sizeof(uint) * 4; // trunk header
 	}
 	
 	uint totalDataBytes = 0;
