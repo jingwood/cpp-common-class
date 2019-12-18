@@ -2,10 +2,10 @@ CXX=clang++
 CXXFLAGS=-O3 -std=c++11 -pthread -Wall #-pedantic
 LIB=
 CX=$(CXX) $(CXXFLAGS)
-BIN=libccm.a
-R=../../src/
+BIN=libucm.a
+R=../../src/ucm
 
-VPATH = ../../src
+VPATH = ../../src/ucm
 
 SRCS = $(wildcard $(R)/*.cpp)
 OBJS = $(patsubst %.cpp, %.o, $(notdir $(SRCS)))

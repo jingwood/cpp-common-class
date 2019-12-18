@@ -1,6 +1,6 @@
 # cpp-common-class
 
-Common classes for cross-platform C++ application development. (libccm.a)
+Common classes for cross-platform C++ application development. (libucm.a)
 
 # This library contains the following classes
 
