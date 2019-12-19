@@ -27,7 +27,7 @@
 		} \
 	}
 
-namespace unvell_common_class {
+namespace ucm {
 	
 	void Console::write(const string& str) const {
 		printf("%s", str.getBuffer());

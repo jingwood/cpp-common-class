@@ -9,7 +9,7 @@
 
 #include <memory>
 
-namespace unvell_common_class {
+namespace ucm {
 	
 void Stream::copy(Stream& from, Stream& to) {
 	constexpr int bufferSize = 40960;

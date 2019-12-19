@@ -15,7 +15,7 @@
 #define set_length    this->currentToken.start = __start; \
 											this->currentToken.length = this->stream.getPosition() - __start - 1
 
-namespace unvell_common_class {
+namespace ucm {
 
 	Lexer::Lexer(const string& input) {
 		this->setInput(input);

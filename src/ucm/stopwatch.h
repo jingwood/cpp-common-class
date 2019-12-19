@@ -21,7 +21,7 @@
 int gettimeofday(timeval* tp, struct timezone* tzp);
 #endif /* defined(_Win32) */
 
-namespace unvell_common_class {
+namespace ucm {
 
 class Stopwatch {
 private:

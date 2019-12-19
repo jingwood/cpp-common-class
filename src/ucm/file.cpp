@@ -19,7 +19,7 @@
 #include <dirent.h>
 #endif
 
-namespace unvell_common_class {
+namespace ucm {
 
 File::File() {
 	

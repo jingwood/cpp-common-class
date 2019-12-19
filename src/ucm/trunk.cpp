@@ -16,7 +16,7 @@
 #define UID_GM_RANDOMLY 2
 #define UID_GENERATION_METHOD UID_GM_RANDOMLY
 
-namespace unvell_common_class {
+namespace ucm {
 
 FileTrunk::~FileTrunk() {
 	this->clear();

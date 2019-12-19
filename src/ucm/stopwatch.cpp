@@ -34,7 +34,7 @@ int gettimeofday(timeval* tp, struct timezone* tzp) {
 
 #endif // defined(_WIN32)
 
-namespace unvell_common_class {
+namespace ucm {
 
 void Stopwatch::start() {
 	gettimeofday(&this->startTime, NULL);

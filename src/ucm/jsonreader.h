@@ -15,7 +15,7 @@
 #include "string.h"
 #include "jstypes.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 class JSONReader
 {

@@ -18,7 +18,7 @@
 #define sscanf sscanf_s
 #endif /* _WIN32 */
 
-namespace unvell_common_class {
+namespace ucm {
 
 enum JSType
 {

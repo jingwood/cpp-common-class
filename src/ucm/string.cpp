@@ -10,7 +10,7 @@
 
 #include <memory>
 
-namespace unvell_common_class {
+namespace ucm {
 
 #ifdef _WIN32
 #define _sprintf sprintf_s

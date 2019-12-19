@@ -14,7 +14,7 @@
 #include "stringstream.h"
 #include "types.h"
 
-namespace unvell_common_class {
+namespace ucm {
 	
 	enum Operators {
 		op_assign,

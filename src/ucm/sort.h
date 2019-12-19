@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-namespace unvell_common_class {
+namespace ucm {
 
 template<typename T>
 inline void swapItem(T& a, T& b) {

@@ -14,7 +14,7 @@
 #define null NULL
 #endif /* USE_LOWER_NULL */
 
-namespace unvell_common_class {
+namespace ucm {
 
 typedef unsigned int uint;
 typedef unsigned short ushort;

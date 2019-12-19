@@ -19,7 +19,7 @@
 #include "stringstream.h"
 #include "exception.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 	class Match;
 

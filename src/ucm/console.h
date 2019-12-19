@@ -13,7 +13,7 @@
 
 #define DEC_OUT_FUNC(NAME) void NAME(const string& str); void NAME(const char* fmt, ...)
 
-namespace unvell_common_class {
+namespace ucm {
 	
 	enum VerboseLevel {
 		VL0_Nothing,

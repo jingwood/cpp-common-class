@@ -15,7 +15,7 @@
 
 #include "types.h"
 
-namespace unvell_common_class {
+namespace ucm {
 	
 #define INCREASE_CAPACITY 64
 #define STR_EOF '\0'

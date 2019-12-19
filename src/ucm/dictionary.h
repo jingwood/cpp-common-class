@@ -14,7 +14,7 @@
 #include "list.h"
 #include "strutil.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 typedef unsigned int uint;
 

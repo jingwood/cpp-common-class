@@ -12,7 +12,7 @@
 #define LCBRACKET '{'
 #define RCBRACKET '}'
 
-namespace unvell_common_class {
+namespace ucm {
 
 JSONReader::JSONReader(const string& str) {
 	this->init(str);

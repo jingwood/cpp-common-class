@@ -11,7 +11,7 @@
 #include "exception.h"
 #include "stream.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 enum FileStreamType {
   Binary,

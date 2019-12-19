@@ -8,7 +8,7 @@
 #include "deflate.h"
 #include "stream.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 CompressBaseStream::CompressBaseStream(Stream& stream, const int chunkSize)
 : stream(stream), chunkSize(chunkSize) {

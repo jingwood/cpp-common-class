@@ -7,7 +7,7 @@
 
 #include "stringstream.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 	StringReader::StringReader(const string& str) {
 		this->setInput(str);

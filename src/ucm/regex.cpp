@@ -7,7 +7,7 @@
 
 #include "regex.h"
 
-namespace unvell_common_class {
+namespace ucm {
 	Regex::PatternLexer::PatternLexer() {
 		
 	}

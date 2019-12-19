@@ -15,7 +15,7 @@
 
 #define   substr(dest, src, pos, len)   memcpy(dest, src + pos, len)
 
-namespace unvell_common_class {
+namespace ucm {
 	
 inline unsigned int hash(const char* s, unsigned int seed = 0) {
   unsigned int hash = seed;

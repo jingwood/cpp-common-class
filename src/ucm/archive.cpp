@@ -11,7 +11,7 @@
 #define FORMAT_TAG_SOBA 0x61626f73
 #define FORMAT_TAG_TOBA 0x61626f74
 
-namespace unvell_common_class {
+namespace ucm {
 
 Archive::Archive() {
 	static bool randseeked = false;

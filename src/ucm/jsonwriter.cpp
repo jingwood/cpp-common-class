@@ -7,7 +7,7 @@
 
 #include "jsonwriter.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 JSONOutputFormat JSONOutputFormat::defaultFormat;
 

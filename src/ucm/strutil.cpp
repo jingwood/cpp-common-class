@@ -8,7 +8,7 @@
 #include "strutil.h"
 #include <math.h>
 
-namespace unvell_common_class {
+namespace ucm {
 
 int hex2dec(const char* str, const int len) {
 	char* c = const_cast<char*>(str) + len - 1;

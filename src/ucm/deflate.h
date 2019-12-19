@@ -18,7 +18,7 @@ extern "C" {
 
 #define CHUNK_DEFAULT_SIZE 65536
 
-namespace unvell_common_class {
+namespace ucm {
 
 class CompressBaseStream {
 protected:

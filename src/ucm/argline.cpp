@@ -14,7 +14,7 @@
 #include <windows.h>
 #endif /* _WIN32 */
 
-namespace unvell_common_class {
+namespace ucm {
 
 CommandLineReader::CommandLineReader(const int argc, const char* argv[])
 : argc(argc), argv(argv) {

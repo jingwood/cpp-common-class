@@ -20,7 +20,7 @@
 #include <dirent.h>
 #endif
 
-namespace unvell_common_class {
+namespace ucm {
 
 FileStream::FileStream(File* file, const FileStreamBehavior behavior, const FileStreamType streamType) {
   this->file = file;

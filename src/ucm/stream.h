@@ -12,7 +12,7 @@
 #include "types.h"
 #include "exception.h"
 
-namespace unvell_common_class {
+namespace ucm {
 	
 class StreamNotAvailableException : Exception {
 	

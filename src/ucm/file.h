@@ -32,7 +32,7 @@
 #define MAX_PATH_LENGTH 260
 #endif // PATH_MAX
 
-namespace unvell_common_class {
+namespace ucm {
 
 class FileStream;
 

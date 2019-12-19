@@ -7,7 +7,7 @@
 
 #include "jstypes.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 JSObject::~JSObject() {
 	for (auto& p : this->properties) {

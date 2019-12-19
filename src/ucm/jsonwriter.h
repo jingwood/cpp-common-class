@@ -17,7 +17,7 @@
 
 #define JSON_NEWLINE '\n'
 
-namespace unvell_common_class {
+namespace ucm {
 
 struct JSONOutputFormat {
 	bool indent = true;

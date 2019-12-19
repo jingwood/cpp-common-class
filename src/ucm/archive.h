@@ -11,7 +11,7 @@
 #include "stream.h"
 #include "trunk.h"
 
-namespace unvell_common_class {
+namespace ucm {
 
 class ChunkEntry;
 class ArchiveInfo;

@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <vector>
 
-namespace unvell_common_class {
+namespace ucm {
 
 class FileTrunk {
 private:
