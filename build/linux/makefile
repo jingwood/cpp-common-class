@@ -3,11 +3,10 @@ CXXFLAGS=-O3 -std=c++11 -pthread -Wall #-pedantic
 LIB=
 CX=$(CXX) $(CXXFLAGS)
 BIN=libucm.a
-R=../../src/ucm
 
 VPATH = ../../src/ucm
 
-SRCS = $(wildcard $(R)/*.cpp)
+SRCS = $(wildcard $(VPATH)/*.cpp)
 OBJS = $(patsubst %.cpp, %.o, $(notdir $(SRCS)))
 
 all: $(BIN)

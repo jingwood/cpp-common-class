@@ -7,6 +7,7 @@
 
 #include "deflate.h"
 #include "stream.h"
+#include <stdint.h>
 
 namespace ucm {
 
