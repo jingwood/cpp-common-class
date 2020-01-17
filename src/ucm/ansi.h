@@ -16,7 +16,7 @@
 #define ANSI_CLN_ENTIRE 	ANSI_CSI"2K"		// clear entire line
 
 #define ANSI_COL_START		ANSI_CSI"1A"		// move to line start
-#define ANSI_RESET_LINE		ANSI_CLN_LEFT"\r"
+#define ANSI_RESET_LINE		ANSI_CLN_ENTIRE "" ANSI_CLN_LEFT"\r"
 
 #define ANSI_CSI_FBLK "30;"
 #define ANSI_CSI_FRED "31;"
@@ -37,6 +37,7 @@
 #define ANSI_CSI_BWHT "47;"
 
 #define ANSI_NOR ANSI_CSI"0m"
+#define ANSI_BOLD ANSI_CSI"1;1m"
 
 #define ANSI_FBLK ANSI_CSI ANSI_CSI_FBLK"1m"
 #define ANSI_FRED ANSI_CSI ANSI_CSI_FRED"1m"
