@@ -77,7 +77,7 @@ public:
 
   void appendFormat(const char* format, ...);
 	void appendFormat(const char* format, va_list vargs);
-  void appendLine(const char* line);
+  void appendLine(const char* line = NULL);
 
 	void insert(const int index, const char* str);
 	void insert(const int index, const char* str, const int strlen);

@@ -111,6 +111,7 @@ string::~string() {
 
 void string::initBuffer(const int size) {
 	this->buffer = new char[size + 1];
+	this->buffer[0] = '\0';
 	this->capacity = size + 1;
 }
 
@@ -196,14 +197,15 @@ void string::appendFormat(const char* format, ...) {
 
 void string::appendFormat(const char* format, va_list vargs) {
 	// FIXME: measure string length
-	char tmpstr[1024];
-	vsnprintf(tmpstr, 1024, format, vargs);
+	char tmpstr[2048];
+	vsnprintf(tmpstr, 2048, format, vargs);
 	this->append(tmpstr);
 }
 
-void string::appendLine(const char* line)
-{
-  this->append(line);
+void string::appendLine(const char* line) {
+	if (line != NULL) {
+		this->append(line);
+	}
   this->append(NEW_LINE);
 }
 
