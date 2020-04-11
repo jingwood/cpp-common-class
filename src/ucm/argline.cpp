@@ -12,6 +12,7 @@
 
 #if defined(_WIN32)
 #include <windows.h>
+#define sscanf sscanf_s
 #endif /* _WIN32 */
 
 namespace ucm {

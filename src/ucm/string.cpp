@@ -13,6 +13,7 @@
 namespace ucm {
 
 #ifdef _WIN32
+#include <ctype.h>
 #define _sprintf sprintf_s
 #else
 #define _sprintf sprintf
