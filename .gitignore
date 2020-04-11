@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+.vs
+Debug
+*.vcxproj.user
+!lib/win32/zlib.lib
