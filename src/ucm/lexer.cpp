@@ -198,10 +198,11 @@ namespace ucm {
 				
 				switch (c)
 				{
+					// FIXME: other case labels
+
 					default:
 						currentToken.v_op = Operators::op_assign;
 						set_length;
-						return true;
 				}
 			}
 				

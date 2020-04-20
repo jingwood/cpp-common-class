@@ -45,6 +45,8 @@ public:
 
 void formatFriendlyDate(const double seconds, string& str);
 
+void formatTimeFormat(const double seconds, string& str);
+
 }
 
 #endif /* strutility_h */

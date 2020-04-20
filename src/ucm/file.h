@@ -14,10 +14,6 @@
 #include "filestream.h"
 
 #if _WIN32
-#define strcpy strcpy_s
-#endif /* _WIN32 */
-
-#if _WIN32
 #define PATH_SPLITTER '\\'
 #define PATH_SPLITTER_STR "\\"
 #else
