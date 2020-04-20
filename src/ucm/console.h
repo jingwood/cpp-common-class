@@ -33,8 +33,11 @@ namespace ucm {
 		
 		void write(const string& str) const;
 		void write(const char* fmt, ...) const;
-		
-		DEC_OUT_FUNC(error);
+
+    void writeln(const string &str) const;
+		void writeln(const char* fmt, ...) const;
+
+    DEC_OUT_FUNC(error);
 		DEC_OUT_FUNC(warn);
 		DEC_OUT_FUNC(info);
 		DEC_OUT_FUNC(trace);

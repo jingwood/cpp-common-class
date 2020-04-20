@@ -40,7 +40,20 @@ namespace ucm {
 		va_end(ap);
 	}
 
-	DEC_CONSOLE_OUTPUT_FUNC(error, true,  VerboseLevel::VL1_Error  );
+  void Console::writeln(const string& str) const {
+		printf("%s\n", str.getBuffer());
+	}
+
+	void Console::writeln(const char* fmt, ...) const {
+		va_list ap;
+		va_start(ap, fmt);
+		vfprintf(STDCHOOSE(false), fmt, ap);
+		va_end(ap);
+    
+    printf("\n");
+  }
+
+  DEC_CONSOLE_OUTPUT_FUNC(error, true,  VerboseLevel::VL1_Error  );
 	DEC_CONSOLE_OUTPUT_FUNC(warn,  false, VerboseLevel::VL2_Warning);
 	DEC_CONSOLE_OUTPUT_FUNC(info,  false, VerboseLevel::VL3_Info   );
 	DEC_CONSOLE_OUTPUT_FUNC(trace, false, VerboseLevel::VL4_Trace  );
