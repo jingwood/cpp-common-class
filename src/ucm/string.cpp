@@ -9,6 +9,7 @@
 #include "exception.h"
 
 #include <memory>
+#include <cctype>
 
 namespace ucm {
 
