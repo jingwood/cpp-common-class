@@ -299,41 +299,34 @@ namespace ucm {
 
 	bool Lexer::readString() {
 		skipWS();
-		
+
 		set_start;
-		
+
 		if (c != '\'' && c != '"') {
 			return false;
 		}
-		
-		const char endChar = c;
-		
-		bool inEscape = false;
-		
-		while (true) {
-			if (c == STR_EOF) {
-				return false;
-			}
-			
-			if (c == '\\') {
-				inEscape = true;
-			} else {
-				inEscape = false;
-			}
-			
-			nextChar();
-			
-			if (c == endChar && !inEscape) {
-				nextChar();
-				break;
-			}
-		}
-		
-		currentToken.type = TokenType::token_string;
 
-		set_length;
-		
-		return true;
+		const char endChar = c;
+		nextChar();  // consume opening quote
+
+		while (c != STR_EOF) {
+			if (c == '\\') {
+				nextChar();                // consume backslash
+				if (c == STR_EOF) return false;  // unterminated escape
+				nextChar();                // consume escaped char verbatim
+				continue;
+			}
+			if (c == endChar) {
+				nextChar();                // consume closing quote
+				currentToken.type = TokenType::token_string;
+				currentToken.start = __start;
+				currentToken.length = (uint)pos - __start;
+				return true;
+			}
+			nextChar();
+		}
+
+		return false;  // unterminated string (hit EOF before closing quote)
 	}
 
 	static const char validBooleanChars[] = "turefals";

@@ -54,6 +54,30 @@ void JSONWriter::appendString(const char* format, va_list vargs) {
 	this->sb.appendFormat(format, vargs);
 }
 
+void JSONWriter::appendEscapedJSONString(const char* s, int len) {
+	for (int i = 0; i < len; i++) {
+		unsigned char c = (unsigned char)s[i];
+		switch (c) {
+			case '"':  this->sb.append("\\\"", 2); break;
+			case '\\': this->sb.append("\\\\", 2); break;
+			case '\b': this->sb.append("\\b", 2);  break;
+			case '\f': this->sb.append("\\f", 2);  break;
+			case '\n': this->sb.append("\\n", 2);  break;
+			case '\r': this->sb.append("\\r", 2);  break;
+			case '\t': this->sb.append("\\t", 2);  break;
+			default:
+				if (c < 0x20) {
+					char buf[8];
+					snprintf(buf, sizeof(buf), "\\u%04x", c);
+					this->sb.append(buf, 6);
+				} else {
+					this->sb.append((char)c);
+				}
+				break;
+		}
+	}
+}
+
 void JSONWriter::appendColon() {
 	if (this->format.spaceBeforeColon) sb.append(' ');
 	this->sb.append(':');
@@ -132,13 +156,13 @@ void JSONWriter::appendIndents() {
 
 void JSONWriter::appendPropertyKey(const char* key) {
 	this->appendSeparatorComma();
-	
+
 	if (this->format.doubleQuoteKey) {
 		this->sb.append('"');
-	}
-	this->appendString(key);
-	if (this->format.doubleQuoteKey) {
+		this->appendEscapedJSONString(key, (int)strlen(key));
 		this->sb.append('"');
+	} else {
+		this->appendString(key);
 	}
 	this->appendColon();
 }
@@ -267,9 +291,7 @@ void JSONWriter::writeValue(const JSValue& value) {
 			break;
 			
 		case JSType::JSType_String:
-			this->sb.append('"');
-			this->appendString(*value.str);
-			this->sb.append('"');
+			this->writeString(*value.str);
 			break;
 			
 		case JSType::JSType_Array:
@@ -321,7 +343,7 @@ void JSONWriter::writeBoolean(const bool value) {
 
 void JSONWriter::writeString(const string& str) {
 	this->sb.append('"');
-	this->appendString(str);
+	this->appendEscapedJSONString(str.getBuffer(), str.length());
 	this->sb.append('"');
 }
 
@@ -333,9 +355,9 @@ void JSONWriter::writeStringFormat(const char* format, ...) {
 }
 
 void JSONWriter::writeStringFormat(const char* format, va_list vargs) {
-	this->sb.append('"');
-	this->appendString(format, vargs);
-	this->sb.append('"');
+	string formatted;
+	formatted.appendFormat(format, vargs);
+	this->writeString(formatted);
 }
 
 void JSONWriter::writeArray(const std::vector<JSValue>& array) {

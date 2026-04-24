@@ -14,6 +14,86 @@
 
 namespace ucm {
 
+static inline int hexDigit(char h) {
+	if (h >= '0' && h <= '9') return h - '0';
+	if (h >= 'a' && h <= 'f') return 10 + (h - 'a');
+	if (h >= 'A' && h <= 'F') return 10 + (h - 'A');
+	return -1;
+}
+
+static void appendUTF8(string& out, unsigned int cp) {
+	if (cp < 0x80) {
+		out.append((char)cp);
+	} else if (cp < 0x800) {
+		out.append((char)(0xC0 | (cp >> 6)));
+		out.append((char)(0x80 | (cp & 0x3F)));
+	} else if (cp < 0x10000) {
+		out.append((char)(0xE0 | (cp >> 12)));
+		out.append((char)(0x80 | ((cp >> 6) & 0x3F)));
+		out.append((char)(0x80 | (cp & 0x3F)));
+	} else {
+		out.append((char)(0xF0 | (cp >> 18)));
+		out.append((char)(0x80 | ((cp >> 12) & 0x3F)));
+		out.append((char)(0x80 | ((cp >> 6) & 0x3F)));
+		out.append((char)(0x80 | (cp & 0x3F)));
+	}
+}
+
+void JSONReader::unescapeJSONString(const string& raw, string& out) {
+	out.clear();
+	const char* s = raw.getBuffer();
+	const int n = raw.length();
+	for (int i = 0; i < n; i++) {
+		if (s[i] != '\\' || i + 1 >= n) {
+			out.append(s[i]);
+			continue;
+		}
+		char esc = s[++i];
+		switch (esc) {
+			case '"':  out.append('"');  break;
+			case '\\': out.append('\\'); break;
+			case '/':  out.append('/');  break;
+			case 'b':  out.append('\b'); break;
+			case 'f':  out.append('\f'); break;
+			case 'n':  out.append('\n'); break;
+			case 'r':  out.append('\r'); break;
+			case 't':  out.append('\t'); break;
+			case 'u': {
+				if (i + 4 >= n) { out.append(esc); break; }
+				unsigned int cp = 0;
+				bool ok = true;
+				for (int j = 1; j <= 4; j++) {
+					int v = hexDigit(s[i + j]);
+					if (v < 0) { ok = false; break; }
+					cp = (cp << 4) | (unsigned int)v;
+				}
+				if (!ok) { out.append(esc); break; }
+				i += 4;
+				// high surrogate: combine with following low surrogate
+				if (cp >= 0xD800 && cp <= 0xDBFF
+					&& i + 6 < n && s[i+1] == '\\' && s[i+2] == 'u') {
+					unsigned int low = 0;
+					bool lok = true;
+					for (int j = 3; j <= 6; j++) {
+						int v = hexDigit(s[i + j]);
+						if (v < 0) { lok = false; break; }
+						low = (low << 4) | (unsigned int)v;
+					}
+					if (lok && low >= 0xDC00 && low <= 0xDFFF) {
+						cp = 0x10000 + ((cp - 0xD800) << 10) + (low - 0xDC00);
+						i += 6;
+					}
+				}
+				appendUTF8(out, cp);
+				break;
+			}
+			default:
+				out.append(esc);
+				break;
+		}
+	}
+}
+
 JSONReader::JSONReader(const string& str) {
 	this->init(str);
 }
@@ -58,21 +138,15 @@ JSObject* JSONReader::readObject() {
 }
 
 const bool JSONReader::readKey(string* key) {
-  const string* readkey = NULL;
-  
-  if (this->lexer.readIdentifier()) {
-		readkey = &this->lexer.getTokenInputString();
-  }
-  else if (this->lexer.readString()) {
-		readkey = &this->lexer.getTokenInputStringWithoutQuotations();
-  }
-
-	if (readkey != NULL) {
-		*key = *readkey;
+	if (this->lexer.readIdentifier()) {
+		*key = this->lexer.getTokenInputString();
 		return true;
 	}
-
-  return false;
+	if (this->lexer.readString()) {
+		unescapeJSONString(this->lexer.getTokenInputStringWithoutQuotations(), *key);
+		return true;
+	}
+	return false;
 }
 
 bool JSONReader::readValue(JSValue& value) {
@@ -81,7 +155,8 @@ bool JSONReader::readValue(JSValue& value) {
   
   // string
   if (this->lexer.readString()) {
-		value.str = new string(lexer.getTokenInputStringWithoutQuotations());
+		value.str = new string();
+		unescapeJSONString(lexer.getTokenInputStringWithoutQuotations(), *value.str);
     value.type = JSType::JSType_String;
     return true;
   }

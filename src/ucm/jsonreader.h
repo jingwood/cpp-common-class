@@ -21,7 +21,9 @@ class JSONReader
 {
 private:
 	Lexer lexer;
-  
+
+	static void unescapeJSONString(const string& raw, string& out);
+
 public:
 	JSONReader() { }
 	JSONReader(const string& str);

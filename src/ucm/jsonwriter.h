@@ -69,6 +69,7 @@ private:
 	void appendString(const string& str);
 	void appendString(const char* format, ...);
 	void appendString(const char* format, va_list vargs);
+	void appendEscapedJSONString(const char* s, int len);
 
 	void appendColon();
 	void appendSeparatorComma();
