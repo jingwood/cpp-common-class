@@ -76,8 +76,11 @@ bool FileStream::readLine(char *lineBuffer, const int lineBufferSize) const {
 }
 
 size_t FileStream::write(const void* buffer, const size_t length) {
-  fwrite(buffer, length, 1, this->fileHandler);
-	return length;
+	size_t written = fwrite(buffer, 1, length, this->fileHandler);
+	if (written != length) {
+		throw FileException("file write failed");
+	}
+	return written;
 }
 
 void FileStream::writeText(const char* str) const {
@@ -85,15 +88,26 @@ void FileStream::writeText(const char* str) const {
 }
 
 size_t FileStream::getPosition() const {
-	return ftell(this->fileHandler);
+	long pos = ftell(this->fileHandler);
+	if (pos < 0) {
+		throw FileException("ftell failed");
+	}
+	return (size_t)pos;
 }
 
 size_t FileStream::getLength() const {
 	long cur = ftell(this->fileHandler);
-	fseek(this->fileHandler, 0, SEEK_END);
+	if (cur < 0 || fseek(this->fileHandler, 0, SEEK_END) != 0) {
+		throw FileException("seek to end failed");
+	}
 	long len = ftell(this->fileHandler);
-	fseek(this->fileHandler, cur, SEEK_SET);
-	return len;
+	if (len < 0) {
+		throw FileException("ftell at end failed");
+	}
+	if (fseek(this->fileHandler, cur, SEEK_SET) != 0) {
+		throw FileException("restore seek position failed");
+	}
+	return (size_t)len;
 }
 
 void FileStream::setPosition(const size_t pos) {

@@ -17,6 +17,7 @@
 #else
 #define _fopen(filename, access, FILE)    FILE = fopen(filename, access)
 #include <dirent.h>
+#include <sys/stat.h>
 #endif
 
 namespace ucm {
@@ -124,9 +125,10 @@ void File::writeBinaryFile(const char* filename, void* buffer, const int len) {
 bool File::isExist() const {
 #if _WIN32
 	return PathFileExistsA(this->fullPathName) == 1;
-#endif // _WIN32
-	
-	return true;
+#else
+	struct stat st;
+	return stat(this->fullPathName, &st) == 0;
+#endif
 }
 
 FileStream& File::open(const FileStreamBehavior behavior, const FileStreamType streamType) {
