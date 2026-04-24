@@ -24,19 +24,12 @@ namespace ucm {
 #define EXPAND_INCREASE_SIZE 64
 
 inline bool _char_compare(const char a, const char b, StringComparingFlags flags) {
-	if (a != b) {
-		if (flags & StringComparingFlags::SCF_CASE_INSENSITIVE) {
-			if (islower(a)) {
-				if (toupper(a) != b) return false;
-			} else if (isupper(a)) {
-				if (tolower(a) != b) return false;
-			}
-		} else {
-			return false;
-		}
-	}
-	
-	return true;
+	if (a == b) return true;
+	if (!(flags & StringComparingFlags::SCF_CASE_INSENSITIVE)) return false;
+	const unsigned char ua = (unsigned char)a;
+	if (islower(ua)) return (char)toupper(ua) == b;
+	if (isupper(ua)) return (char)tolower(ua) == b;
+	return false;
 }
 
 bool stringStartWith(const char* str, int slen, const char* ptarget, int targetlen) {
@@ -254,7 +247,8 @@ char string::charAt(const uint index) const {
 }
 
 int string::indexOf(const char c) const {
-	return (int)(size_t)(strchr(this->buffer, c) - this->buffer);
+	const char* ch = strchr(this->buffer, c);
+	return ch == NULL ? -1 : (int)(ch - this->buffer);
 }
 
 int string::indexOf(const string& str, const int startIndex) const {
@@ -450,11 +444,11 @@ void string::encode(const string &str, byte** buf, size_t *length) {
 }
 
 bool string::compare(const char* str1, const char* str2, StringComparingFlags flags) {
-	for (const char *pa = str1, *pb = str2; *pa != STR_EOF && *pb != STR_EOF; pa++, pb++) {
+	const char *pa = str1, *pb = str2;
+	for (; *pa != STR_EOF && *pb != STR_EOF; pa++, pb++) {
 		if (!_char_compare(*pa, *pb, flags)) return false;
 	}
-	
-	return true;
+	return *pa == STR_EOF && *pb == STR_EOF;
 }
 
 }
