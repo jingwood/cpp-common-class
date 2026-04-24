@@ -37,3 +37,4 @@ Release
 *.vcxproj.user
 !lib/win32/zlib.lib
 .DS_Store
+.claude/settings.json
