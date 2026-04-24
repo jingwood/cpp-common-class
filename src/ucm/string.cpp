@@ -191,10 +191,26 @@ void string::appendFormat(const char* format, ...) {
 }
 
 void string::appendFormat(const char* format, va_list vargs) {
-	// FIXME: measure string length
-	char tmpstr[2048];
-	vsnprintf(tmpstr, 2048, format, vargs);
-	this->append(tmpstr);
+	va_list args_measure;
+	va_copy(args_measure, vargs);
+	int needed = vsnprintf(NULL, 0, format, args_measure);
+	va_end(args_measure);
+
+	if (needed <= 0) return;
+
+	va_list args_write;
+	va_copy(args_write, vargs);
+	if ((size_t)needed < 2048) {
+		char stackbuf[2048];
+		vsnprintf(stackbuf, sizeof(stackbuf), format, args_write);
+		this->append(stackbuf, needed);
+	} else {
+		char* heapbuf = new char[(size_t)needed + 1];
+		vsnprintf(heapbuf, (size_t)needed + 1, format, args_write);
+		this->append(heapbuf, needed);
+		delete[] heapbuf;
+	}
+	va_end(args_write);
 }
 
 void string::appendLine(const char* line) {
@@ -339,11 +355,13 @@ char string::operator[](const int index) const {
 }
 
 void string::operator=(const char* str) {
+	if (str == this->buffer) return;
 	this->clear();
 	this->append(str);
 }
 
 void string::operator=(const string& str) {
+	if (&str == this) return;
 	this->clear();
 	this->append(str);
 }

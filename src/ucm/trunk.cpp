@@ -24,41 +24,56 @@ FileTrunk::~FileTrunk() {
 
 bool FileTrunk::load(FileStream &stream) {
 	const size_t streamStartPos = stream.getPosition();
-	
+	const size_t streamLength = stream.getLength();
+	if (streamLength < streamStartPos) return false;
+	const size_t available = streamLength - streamStartPos;
+
+	if (available < sizeof(TrunkHeader)) return false;
+
 	TrunkHeader header;
 	int readBytes = stream.read(&header, sizeof(TrunkHeader));
-	if (readBytes < sizeof(TrunkHeader)) {
-		return false;
-	}
-	
+	if ((size_t)readBytes < sizeof(TrunkHeader)) return false;
+
+	if (header.headerSize < sizeof(TrunkHeader) || header.headerSize > available) return false;
+
+	const size_t indicesBytes = (size_t)header.trunkCount * TrunkIndexSize;
+	if (indicesBytes > available - header.headerSize) return false;
+
 	stream.setPosition(streamStartPos + header.headerSize);
-	
+
 	this->clear();
-	
+
 	// read index
 	for (uint i = 0; i < header.trunkCount; i++) {
 		TrunkIndex index;
 		readBytes = stream.read(&index, TrunkIndexSize);
-		if (readBytes < TrunkIndexSize) {
+		if ((size_t)readBytes < TrunkIndexSize) {
+			this->clear();
 			return false;
 		}
 		indices.push_back(index);
 	}
-	
+
 	// read data
 	for (TrunkIndex& index : this->indices) {
+		if ((size_t)index.offset > available
+			|| (size_t)index.length > available - (size_t)index.offset) {
+			this->clear();
+			return false;
+		}
+
 		stream.setPosition(streamStartPos + index.offset);
 		index.data = new byte[index.length];
 		byte* buffer = const_cast<byte*>(index.data);
 		readBytes = stream.read(buffer, index.length);
-		
-		if (readBytes < (int)index.length) {
+
+		if ((size_t)readBytes < (size_t)index.length) {
 			delete [] index.data;
 			index.data = NULL;
 			index.length = 0;
 		}
 	}
-	
+
 	return true;
 }
 

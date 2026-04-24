@@ -116,20 +116,25 @@ bool Archive::deleteChunk(const uint uid, const uint format) {
 void Archive::load(const string& path) {
 	FileStream stream(path);
 	stream.openRead();
-	
+
 	ArchiveFileHeader header;
-	stream.read(&header, sizeof(ArchiveFileHeader));
+	int readBytes = stream.read(&header, sizeof(ArchiveFileHeader));
+	if ((size_t)readBytes < sizeof(ArchiveFileHeader)) {
+		throw ArchiveFormatInvalidException();
+	}
 
 	if (header.format != FORMAT_TAG_SOBA
 			&& header.format != FORMAT_TAG_TOBA) {
 		throw ArchiveFormatInvalidException();
 	}
-	
+
 	this->fileInfo.format = header.format;
 	this->fileInfo.version = header.ver;
 
 	this->trunk.clear();
-	this->trunk.load(stream);
+	if (!this->trunk.load(stream)) {
+		throw ArchiveFormatInvalidException();
+	}
 }
 
 void Archive::save(const string& path) {
