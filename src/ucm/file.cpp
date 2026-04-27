@@ -34,9 +34,16 @@ void File::create(const string& fullPathName) {
 	this->fullPathName = fullPathName;
 	
 	int index = -1;
-	
+
 	// path & file name
+#if _WIN32
+	// Windows accepts both '\\' and '/' as path separators; pick the rightmost of either.
+	int idxBack = fullPathName.lastIndexOf('\\');
+	int idxFwd = fullPathName.lastIndexOf('/');
+	index = idxBack > idxFwd ? idxBack : idxFwd;
+#else
 	index = fullPathName.lastIndexOf(PATH_SPLITTER);
+#endif
 	if (index < 0) {
 		fileName = fullPathName;
 	}	else {
